@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form>
+    <label for="productName"></label>Name of Product <input type="text" id="productName" step="any"/><br><br>
+    <label for="productValue"></label>Value of Product <input type="number" id="productValue" step="any"/>
+    <button id="btn_submit">Submit</button>
+</form>
+
+<script>
+
+    btn = document.getElementById('btn_submit');
+
+    btn.addEventListener("click", function sendToApi() {
+        let prodName = document.getElementById('productName');
+        let prodValue = document.getElementById('productValue');
+
+        let name = prodName.value;
+        let product = prodValue.value;
+
+        const myDict = {
+            products: [
+                {
+                    name: name,
+                    value: parseFloat(product)
+                },
+            ]
+        };
+
+        let myJson = JSON.stringify(myDict);
+
+        let http = new XMLHttpRequest;
+        let url = 'http://localhost:6543/api/v1/sale';
+        http.open('post', url);
+        http.setRequestHeader('Content-Type', 'application/json');
+        http.send(myJson);
+
+    })
+
+
+</script>
+
+</body>
+</html>
