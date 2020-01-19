@@ -1,47 +1,92 @@
 <!DOCTYPE html>
 <html>
-<body>
+    <head>
+        <title>Forms</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
 
-<h2>HTML Forms</h2>
+    <h2 id="demo">FORMULÁRIO PARA CADASTRAR PRODUTO NO BANCO DE DADOS</h2>
 
-<form>
-    <label for="productName"></label>Name of Product <input type="text" id="productName" step="any"/><br><br>
-    <label for="productValue"></label>Value of Product <input type="number" id="productValue" step="any"/>
-    <button id="btn_submit">Submit</button>
-</form>
+    <style type="text/css">
 
-<script>
+        input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-    btn = document.getElementById('btn_submit');
+        input[type=number], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
 
-    btn.addEventListener("click", function sendToApi() {
-        let prodName = document.getElementById('productName');
-        let prodValue = document.getElementById('productValue');
+        button[type=submit] {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
-        let name = prodName.value;
-        let product = prodValue.value;
+        div {
+            margin-left: 50px;
+            width: 500px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
 
-        const myDict = {
-            products: [
-                {
-                    name: name,
-                    value: parseFloat(product)
-                },
-            ]
-        };
+    <div>
 
-        let myJson = JSON.stringify(myDict);
+        <form>
+            <label for="productName"></label>Name of Product <input type="text" id="productName" step="any"/><br/><br/>
+            <label for="productValue"></label>Value of Product <input type="number" id="productValue" step="any"/><br/><br/>
+            <button id="btn_submit" type="submit">Submit</button>
+        </form>
+    </div>
 
-        let http = new XMLHttpRequest;
-        let url = 'http://localhost:6543/api/v1/sale';
-        http.open('post', url);
-        http.setRequestHeader('Content-Type', 'application/json');
-        http.send(myJson);
+    <script>
+        let btn = document.getElementById('btn_submit');
 
-    })
+        btn.addEventListener("click", function sendToApi() {
+            let prodName = document.getElementById('productName');
+            let prodValue = document.getElementById('productValue');
 
+            let name = prodName.value;
+            let product = prodValue.value;
 
-</script>
+            const myDict = {
+                products: [
+                    {
+                        name: name,
+                        value: parseFloat(product)
+                    },
+                ]
+            };
 
-</body>
+            let myJson = JSON.stringify(myDict);
+
+            let http = new XMLHttpRequest;
+            let url = 'http://192.168.0.116:6543/api/v1/sale';
+            http.open('post', url);
+            http.setRequestHeader('Content-Type', 'application/json');
+            http.send(myJson);
+            alert('Dados enviados com sucesso!')
+        });
+    </script>
+    </body>
 </html>
